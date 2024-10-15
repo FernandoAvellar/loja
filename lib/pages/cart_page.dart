@@ -46,14 +46,16 @@ class CartPage extends StatelessWidget {
                   ),
                   const Spacer(),
                   TextButton(
-                    onPressed: () {
-                      Provider.of<OrderList>(
-                        context,
-                        listen: false,
-                      ).addOrder(cart);
+                    onPressed: items.isEmpty
+                        ? null
+                        : () {
+                            Provider.of<OrderList>(
+                              context,
+                              listen: false,
+                            ).addOrder(cart);
 
-                      cart.clear();
-                    },
+                            cart.clear();
+                          },
                     child: const Text('COMPRAR'),
                   ),
                 ],
