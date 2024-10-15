@@ -3,6 +3,7 @@ import 'package:loja/components/app_drawer.dart';
 import 'package:loja/components/my_badge.dart';
 import 'package:loja/components/product_grid.dart';
 import 'package:loja/models/cart.dart';
+import 'package:loja/models/product_list.dart';
 import 'package:loja/utils/app_routes.dart';
 import 'package:provider/provider.dart';
 
@@ -20,6 +21,20 @@ class ProductsOverviewPage extends StatefulWidget {
 
 class _ProductsOverviewPageState extends State<ProductsOverviewPage> {
   bool _showFavoriteOnly = false;
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<ProductList>(
+      context,
+      listen: false,
+    ).loadProducts().then((value) {
+      setState(() {
+        _isLoading = false;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +67,7 @@ class _ProductsOverviewPageState extends State<ProductsOverviewPage> {
           Consumer<Cart>(
             child: IconButton(
               onPressed: () {
-                Navigator.of(context).pushNamed(AppRoutes.CART);
+                Navigator.of(context).pushNamed(AppRoutes.cart);
               },
               icon: const Icon(Icons.shopping_cart),
             ),
@@ -63,7 +78,9 @@ class _ProductsOverviewPageState extends State<ProductsOverviewPage> {
           ),
         ],
       ),
-      body: ProductGrid(_showFavoriteOnly),
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : ProductGrid(_showFavoriteOnly),
       drawer: const AppDrawer(),
     );
   }
