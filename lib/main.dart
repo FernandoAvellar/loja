@@ -36,12 +36,17 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Loja',
         theme: ThemeData(
-          useMaterial3: true,
           colorScheme: ColorScheme.fromSeed(
             seedColor: Colors.purple,
             secondary: Colors.deepOrange,
+            onError: Colors.red,
           ),
-          fontFamily: 'Lato',
+          appBarTheme: const AppBarTheme(
+              color: Colors.indigo,
+              shadowColor: Colors.blueGrey,
+              elevation: 5,
+              foregroundColor: Colors.white),
+          useMaterial3: true,
         ),
         //home: const ProductsOverviewPage(),
         routes: {
